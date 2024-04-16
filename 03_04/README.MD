@@ -8,4 +8,4 @@
     6. Визуализация;
     7. Завершение.
 Результат работы программы:
-![Res](03_04/mandelbrot.png)
+![Res](https://raw.githubusercontent.com/dimandjdi/practice/main/03_04/mandelbrot.png)
