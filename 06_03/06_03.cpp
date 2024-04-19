@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <locale>
+#include <cmath>
 
 void merge(std::vector<int>& arr, int left, int mid, int right) {
     int n1 = mid - left + 1;
@@ -73,6 +74,19 @@ void parallel_merge_sort(std::vector<int>& arr, int left, int right) {
     merge(arr, left, mid, right);
 }
 
+double calculate_pi(int n) {
+    int count = 0;
+#pragma omp parallel for reduction(+:count)
+    for (int i = 0; i < n; i++) {
+        double x = (double)rand() / RAND_MAX;
+        double y = (double)rand() / RAND_MAX;
+        if (x * x + y * y <= 1.0) {
+            count++;
+        }
+    }
+    return 4.0 * count / n;
+}
+
 int main() {
     setlocale(LC_ALL, "Ru");
     //T2
@@ -106,9 +120,6 @@ int main() {
 
     std::cout << "Время параллельной сортировки: " << duration_parallel << " миллисекунд" << std::endl;
 
-
-
-
     //T1
     int n, sum = 0;
     std::cout << "Введите размер массива: ";
@@ -127,6 +138,11 @@ int main() {
     }
 
     std::cout << "Сумма элементов массива: " << sum << std::endl;
+
+    // Monte Carlo
+    int num_points = 1000000;
+    double pi = calculate_pi(num_points);
+    std::cout << "Приближенное значение Pi: " << pi << std::endl;
 
     delete[] arrs;
     return 0;
